@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         body, html { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; height: 100%; }
-        #map { width: 100%; height: 85vh; } /* Tăng diện tích bản đồ */
+        #map { width: 100%; height: 85vh; } 
         
         .aqi-marker {
             display: flex; align-items: center; justify-content: center;
@@ -33,7 +33,7 @@
     <div id="newsSection" style="display: none; padding: 20px; background: #fff5f5; border-bottom: 3px solid #d32f2f;">
         <h2 style="color: #d32f2f; text-transform: uppercase; margin-top: 0;">Khi con người là cỗ máy thở chạy hết công suất</h2>
         <p style="font-size: 16px; line-height: 1.6; color: #333;">
-            <b>MỚI NHẤT:</b> Ô nhiễm không khí sáng nay 11/12/2025 ở Hà Nội lên ngưỡng tím, chỉ số IQAir ở mức <b>244</b> lên top 1 thế giới về ô nhiễm không khí, rất nguy hiểm cho sức khỏe. Tại trạm Đại học Bách khoa là 227, ở mức rất xấu.
+            <b>MỚI NHẤT:</b> Ô nhiễm không khí sáng nay 11.12 ở Hà Nội lên ngưỡng tím, chỉ số IQAir ở mức 244 lên top 1 thế giới về ô nhiễm không khí, rất nguy hiểm cho sức khỏe. Sáng nay 11.12, tình trạng ô nhiễm không khí ở Hà Nội rất nghiêm trọng. Theo trang iqair.com, lúc 8h45 sáng nay Hà Nội là thành phố ô nhiễm nhất thế giới với chỉ số 244. Xếp thứ 2 và 3 lần lượt là các thành phố của Ấn Độ gồm Kolkata và Delhi. Còn theo Cục Môi trường (Bộ Nông nghiệp và Môi trường), tại trạm đo 556 Nguyễn Văn Cừ, chất lượng không khí ở mức 189; Tại trạm Đại học Bách khoa là 227, ở mức rất xấu.S
         </p>
     </div>
 
@@ -41,10 +41,9 @@
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // Khởi tạo bản đồ tập trung vào Việt Nam
+        // Khởi tạo bản đồ
         var map = L.map('map').setView([16.5, 110.0], 5); 
 
-        // Lớp bản đồ Google Maps tiếng Việt - Khẳng định chủ quyền không cần Marker AQI
         L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
             maxZoom: 20,
             subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
@@ -56,22 +55,34 @@
             x.style.display = (x.style.display === "none") ? "block" : "none";
         }
 
-        // CHỈ GIỮ LẠI 6 THÀNH PHỐ ĐỂ SO SÁNH
+        // ĐÃ FIX: Thêm dấu phẩy và sửa lỗi cú pháp mảng
         var danhSachAQI = [
-            { ten: "TP. Hà Nội", toaDo: [21.0285, 105.8542], chiSo: 244, danhGia: "Rất xấu", nguyenNhan: "7 triệu xe xả thải & hiện tượng nghịch nhiệt mùa đông." },
-            { ten: "TP. Hải Phòng", toaDo: [20.8449, 106.6881], chiSo: 131, danhGia: "Kém", nguyenNhan: "Phát thải công nghiệp nặng và bụi vận tải cảng biển." },
-            { ten: "TP. Đà Nẵng", toaDo: [16.0544, 108.2022], chiSo: 63, danhGia: "Trung bình", nguyenNhan: "Lưu lượng xe tăng nhưng có gió biển điều hòa tốt." },
-            { ten: "TP. Huế", toaDo: [16.4637, 107.5908], chiSo: 58, danhGia: "Trung bình", nguyenNhan: "Mật độ cây xanh cao, ít cơ sở phát thải nặng." },
-            { ten: "TP. Hồ Chí Minh", toaDo: [10.7626, 106.6601], chiSo: 84, danhGia: "Trung bình", nguyenNhan: "Ùn tắc cửa ngõ và khói thải từ lượng xe cá nhân khổng lồ." },
-            { ten: "TP. Cần Thơ", toaDo: [10.0333, 105.7833], chiSo: 67, danhGia: "Trung bình", nguyenNhan: "Hệ thống sông ngòi giúp khuếch tán bụi mịn hiệu quả." }
+            { ten: "TP. Hà Nội", toaDo: [21.0285, 105.8542], chiSo: 244, danhGia: "Rất xấu", nguyenNhan: "7 triệu xe xả thải & nghịch nhiệt." },
+            { ten: "TP. Hải Phòng", toaDo: [20.8449, 106.6881], chiSo: 131, danhGia: "Kém", nguyenNhan: "Phát thải công nghiệp & vận tải cảng." },
+            { ten: "TP. Đà Nẵng", toaDo: [16.0544, 108.2022], chiSo: 63, danhGia: "Trung bình", nguyenNhan: "Gió biển điều hòa tốt." },
+            { ten: "TP. Huế", toaDo: [16.4637, 107.5908], chiSo: 58, danhGia: "Trung bình", nguyenNhan: "Cây xanh nhiều." },
+            { ten: "TP. Hồ Chí Minh", toaDo: [10.7626, 106.6601], chiSo: 84, danhGia: "Trung bình", nguyenNhan: "Ùn tắc giao thông." },
+            { ten: "TP. Cần Thơ", toaDo: [10.0333, 105.7833], chiSo: 67, danhGia: "Trung bình", nguyenNhan: "Sông ngòi khuếch tán tốt." },
+            { ten: "Phú Thọ", toaDo: [21.3217, 105.2283], chiSo: 111, danhGia: "Kém", nguyenNhan: "Hoạt động công nghiệp." },
+            { ten: "Hưng Yên", toaDo: [20.6464, 106.0511], chiSo: 202, danhGia: "Rất xấu", nguyenNhan: "Bụi mịn tích tụ." },
+            { ten: "Bắc Ninh", toaDo: [21.1861, 106.0763], chiSo: 164, danhGia: "Xấu", nguyenNhan: "Làng nghề & khu công nghiệp." },
+            { ten: "Quảng Ninh", toaDo: [20.9497, 107.0738], chiSo: 127, danhGia: "Kém", nguyenNhan: "Khai thác khoáng sản." },
+            { ten: "Tuyên Quang", toaDo: [21.8231, 105.2172], chiSo: 168, danhGia: "Xấu", nguyenNhan: "Khói bụi cục bộ." },
+            { ten: "Lào Cai", toaDo: [22.4856, 103.9707], chiSo: 89, danhGia: "Trung bình", nguyenNhan: "Địa hình vùng cao." },
+            { ten: "Nghệ An", toaDo: [18.6734, 105.6924], chiSo: 96, danhGia: "Trung bình", nguyenNhan: "Gió Lào & bụi đường." },
+            { ten: "Thái Nguyên", toaDo: [21.5939, 105.8481], chiSo: 156, danhGia: "Xấu", nguyenNhan: "Công nghiệp gang thép." },
+            { ten: "Lâm Đồng", toaDo: [11.9404, 108.4583], chiSo: 40, danhGia: "Tốt", nguyenNhan: "Không khí trong lành vùng cao." },
+            { ten: "Tây Ninh", toaDo: [11.3347, 106.1264], chiSo: 81, danhGia: "Trung bình", nguyenNhan: "Ảnh hưởng từ vùng lân cận." }
         ];
 
         function getColor(aqi) {
             if (aqi > 200) return "#8c1aff"; // Tím
             if (aqi > 150) return "#ff4d4d"; // Đỏ
             if (aqi > 100) return "#f49633"; // Cam
-            if (aqi > 50) return "#ffeb3b";  // Vàng}
+            if (aqi > 50) return "#ffeb3b";  // Vàng
+            return "#4caf50";                // Xanh lá
         }
+        
         danhSachAQI.forEach(function(tinh) {
             var mauSac = getColor(tinh.chiSo);
 
@@ -88,7 +99,7 @@
                         <b>${tinh.ten}</b><br>
                         <span style="font-size: 20px; color: ${mauSac}; font-weight: bold;">AQI: ${tinh.chiSo}</span><br>
                         <div style="background:${mauSac}; color:white; padding:2px; border-radius:3px;">${tinh.danhGia}</div>
-                        <p style="font-size:12px; text-align:left; margin-top:5px;"><b>Nguyên nhân:</b> ${tinh.nguyenNhan}</p>
+                        <p style="font-size:12px; text-align:left; margin-top:5px;"><b>Nguyên nhân:</b> ${tinh.nguyenNhan || "Chưa có dữ liệu chi tiết"}</p>
                     </div>
                 `);
         });
